@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { User } from "../entities/user";
-import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
+import { LocalStorageService } from './local-storage.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AjaxService {
 
-  user: User;
-  constructor(private http : Http) {
+  // user: User;
+  localStor: LocalStorageService
+  constructor(private httpClient : HttpClient) {
+    this.localStor = new LocalStorageService;
   }
 
   getUser(id) {
-    this.http.get(`http://localhost:3000/users/${id}`).subscribe(
-      value => {
-        // console.log(value.json().last_name);
-        this.user = value.json();
-        console.log(this.user.gender);
-        return this.user;
-      });
+    return this.httpClient.get<User>(`http://localhost:3000/users/${id}`)
+    .pipe(tap(res => {
+      this.localStor.setItem(`user${id}`, res);
+    }));
+    
+      // value => {
+      //   // console.log(value.json().last_name);
+      //   this.user = value.json();
+      //   console.log(this.user.gender);
+      //   return this.user;
+      // });
   }
 }

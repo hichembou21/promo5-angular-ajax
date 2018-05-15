@@ -1,12 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { HttpModule } from "@angular/http";
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { AjaxService } from './services/ajax.service';
-
-
+// import { LocalStorageService } from './services/local-storage.service';
 
 
 @NgModule({
@@ -15,14 +14,14 @@ import { AjaxService } from './services/ajax.service';
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private ajax:AjaxService) {
-    ajax.getUser(1);
+    ajax.getUser(2).subscribe(value => console.log(value));
   }
 
  }
