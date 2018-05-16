@@ -4,8 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
-import { AjaxService } from './services/ajax.service';
-// import { LocalStorageService } from './services/local-storage.service';
+import { AjaxService, LocalStorageService } from './user/user.module';
 
 
 @NgModule({
@@ -20,8 +19,9 @@ import { AjaxService } from './services/ajax.service';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private ajax:AjaxService) {
-    ajax.getUser(2).subscribe(value => console.log(value));
+  constructor(private ajax:AjaxService, private localStor : LocalStorageService) {
+    // ajax.getUser(1).subscribe(value => console.log(value));
+    console.log(localStor.getAll()[0].constructor.name);
   }
 
  }
